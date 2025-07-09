@@ -4,172 +4,247 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Vacation Calendar</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Pacifico&family=Fira+Mono&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    :root {
+      --primary: #002b4e;
+      --secondary: #00b3c6;
+      --accent: #ffb347;
+      --white: #fff;
+      --muted: #eaf6fb;
+      --shadow: 0 8px 32px rgba(0,0,0,0.16);
     }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #f4f4f4, #ffffff);
-      color: #111;
-      text-align: center;
+      min-height: 100vh;
+      background: linear-gradient(120deg, #eaf6fb 0%, #f6fafd 70%, #c8e6fa 100%);
+      color: var(--primary);
       overflow-x: hidden;
       scroll-behavior: smooth;
+      position: relative;
+    }
+    /* ---- Animated Bubbles BG ---- */
+    .bubbles {
+      position: fixed;
+      top:0; left:0; width:100vw; height:100vh; z-index:0; pointer-events:none; overflow:hidden;
+    }
+    .bubble {
+      position: absolute;
+      bottom: -120px;
+      border-radius: 50%;
+      opacity: 0.25;
+      animation: floatUp 16s linear infinite;
+      background: linear-gradient(135deg, var(--secondary), var(--accent));
+      filter: blur(1px);
+    }
+    .bubble:nth-child(1) { left: 10vw; width: 90px; height: 90px; animation-duration: 17s; }
+    .bubble:nth-child(2) { left: 35vw; width: 60px; height: 60px; animation-duration: 22s; }
+    .bubble:nth-child(3) { left: 70vw; width: 110px; height: 110px; animation-duration: 13s; }
+    .bubble:nth-child(4) { left: 80vw; width: 80px; height: 80px; animation-duration: 20s; }
+    .bubble:nth-child(5) { left: 50vw; width: 120px; height: 120px; animation-duration: 18s; }
+    @keyframes floatUp {
+      from { transform: translateY(0) scale(1);}
+      to { transform: translateY(-110vh) scale(1.2);}
     }
 
-    .fade-in {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 1s ease, transform 1s ease;
-    }
-
-    .fade-in.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
+    /* ---- Fade In Anim ---- */
+    .fade-in { opacity: 0; transform: translateY(40px) scale(0.98); transition: opacity 1.1s cubic-bezier(.57,1.21,.77,.96), transform 1s cubic-bezier(.57,1.21,.77,.96);}
+    .fade-in.show { opacity: 1; transform: translateY(0) scale(1);}
     .header {
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 40px 20px;
-      background: #ffffff;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      padding: 54px 20px 28px;
+      background: rgba(255,255,255,0.9);
+      border-radius: 0 0 36px 36px;
+      box-shadow: var(--shadow);
+      z-index: 2;
+      position: relative;
+      gap: 24px;
     }
-
     .header img.logo {
-      width: 80px;
-      margin-right: 20px;
-      filter: brightness(0);
-      transition: transform 0.3s ease;
+      width: 90px;
+      margin-right: 12px;
+      filter: drop-shadow(0 4px 10px #eee) brightness(1.1) saturate(1.4);
+      transition: transform 0.5s cubic-bezier(.57,1.21,.77,.96);
+      border-radius: 18px;
+      background: linear-gradient(135deg, #eaf6fb 70%, #c8e6fa 100%);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      padding: 9px;
     }
-
     .header img.logo:hover {
-      transform: scale(1.05);
+      transform: rotate(-5deg) scale(1.09);
     }
-
     h1 {
-      font-size: 40px;
-      font-weight: 600;
-      background: linear-gradient(to right, #111, #555);
+      font-size: 54px;
+      font-weight: 700;
+      background: linear-gradient(85deg, var(--primary), var(--secondary), var(--accent), #fff 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
+      letter-spacing: -2px;
+      font-family: 'Pacifico', cursive, 'Poppins', sans-serif;
+      user-select: none;
+      text-shadow: 0 2px 8px #f4ebb6;
+    }
+    .shine {
+      background: linear-gradient(90deg, #fff6 40%, #fff 60%, #fff6 100%);
+      background-size: 200% auto;
+      animation: shineMove 2.2s linear infinite;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-
-    iframe {
-      margin: 50px auto 30px;
-      width: 90%;
-      height: 550px;
-      max-width: 1000px;
-      border: none;
-      border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-      background: #fff;
+    @keyframes shineMove {
+      to {background-position: 200% center;}
     }
-
+    iframe {
+      margin: 60px auto 32px;
+      width: 92%;
+      height: 590px;
+      max-width: 1100px;
+      border: none;
+      border-radius: 20px;
+      box-shadow: 0 16px 48px 0 rgba(0,0,0,0.13), 0 2px 8px 0 rgba(0,0,0,0.11);
+      background: var(--white);
+      z-index: 2;
+      position: relative;
+      filter: drop-shadow(0 6px 30px #b1e1fa77);
+      transition: box-shadow 0.3s;
+    }
+    iframe:hover { box-shadow: 0 24px 60px 0 rgba(0,0,0,0.18), 0 4px 14px 0 rgba(0,0,0,0.10);}
     .cars {
-      margin-top: 60px;
+      margin-top: 70px;
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 40px;
+      gap: 50px;
+      z-index: 2;
+      position: relative;
     }
-
     .cars img {
-      width: 340px;
-      border-radius: 14px;
-      border: 1px solid #ddd;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      width: 370px;
+      border-radius: 22px;
+      border: 1.5px solid #c8e6fa;
+      box-shadow: 0 10px 36px rgba(0,0,0,0.11), 0 1.5px 6px #b1e1fa22;
+      transition: transform 0.33s cubic-bezier(.57,1.21,.77,.96), box-shadow 0.33s;
+      background: linear-gradient(120deg, #fff 60%, #eaf6fb 100%);
+      filter: saturate(1.04);
     }
-
     .cars img:hover {
-      transform: scale(1.04);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+      transform: scale(1.055) rotate(-2deg);
+      box-shadow: 0 24px 64px rgba(0,0,0,0.13), 0 4px 18px #b1e1fa44;
+      filter: brightness(1.03) saturate(1.2);
     }
-
     .credit {
-      margin: 70px 0 40px;
-      font-size: 16px;
-      color: #666;
+      margin: 100px 0 48px;
+      font-size: 18px;
+      color: var(--primary);
+      text-shadow: 0 1px 0 #fff8;
+      z-index: 2;
+      position: relative;
+      letter-spacing: 0.5px;
+      font-family: 'Fira Mono', monospace, 'Poppins', sans-serif;
     }
-
     .credit a {
-      color: #000;
+      color: var(--secondary);
       text-decoration: none;
-      font-weight: 500;
-      border-bottom: 1px dotted #000;
-      transition: color 0.3s ease;
+      font-weight: 600;
+      border-bottom: 2px dashed var(--accent);
+      transition: color 0.25s;
+      padding: 0 5px;
+      background: linear-gradient(120deg, #fff 60%, #eaf6fb 100%);
+      border-radius: 4px;
     }
-
     .credit a:hover {
-      color: #444;
+      color: #222;
+      background: linear-gradient(90deg, var(--accent) 60%, #fff 100%);
     }
-
     /* Loader */
     #loader {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: linear-gradient(120deg, #eaf6fb 0%, #c8e6fa 100%);
+      display: flex; align-items: center; justify-content: center;
       z-index: 9999;
-      transition: opacity 0.5s ease, visibility 0.5s ease;
+      transition: opacity 0.8s cubic-bezier(.57,1.21,.77,.96), visibility 0.8s;
     }
-
-    #loader.hidden {
-      opacity: 0;
-      visibility: hidden;
-    }
-
+    #loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
     .spinner {
-      border: 6px solid #eee;
-      border-top: 6px solid #aaa;
+      border: 7px solid #fff;
+      border-top: 7px solid var(--primary);
+      border-right: 7px solid var(--secondary);
       border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      animation: spin 1s linear infinite;
+      width: 74px; height: 74px;
+      animation: spin 1.4s cubic-bezier(.57,1.21,.77,.96) infinite;
+      box-shadow: 0 4px 16px #b1e1fa99;
     }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    @keyframes spin { 0% { transform: rotate(0deg);} 100% { transform: rotate(360deg);} }
+    /* Floating button */
+    .fab {
+      position: fixed;
+      right: 30px;
+      bottom: 36px;
+      z-index: 10001;
+      background: linear-gradient(135deg, var(--secondary), var(--accent));
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 64px;
+      height: 64px;
+      box-shadow: 0 6px 24px #00b3c644, 0 2px 8px #ffb34744;
+      font-size: 2.2rem;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
-
-    @media (max-width: 768px) {
-      .cars img {
-        width: 90%;
-      }
-
-      iframe {
-        height: 460px;
-      }
-
-      h1 {
-        font-size: 30px;
-      }
-
-      .header {
-        flex-direction: column;
-        gap: 10px;
-        text-align: center;
-      }
-
-      .header img.logo {
-        margin: 0 0 10px 0;
-      }
+    .fab:hover { transform: scale(1.09) rotate(-7deg); box-shadow: 0 14px 36px #00b3c677;}
+    .fab:active { transform: scale(0.98);}
+    .fab-tooltip {
+      position: absolute;
+      right: 80px;
+      bottom: 22px;
+      background: #fff;
+      color: var(--primary);
+      border-radius: 8px;
+      padding: 7px 18px;
+      font-size: 1rem;
+      box-shadow: 0 2px 14px #b1e1fa44;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      letter-spacing: .3px;
+    }
+    .fab:hover + .fab-tooltip { opacity: 1; }
+    /* Responsive */
+    @media (max-width: 900px) {
+      .cars img { width: 90vw; max-width: 340px; }
+      iframe { height: 420px;}
+      h1 { font-size: 34px;}
+      .header { flex-direction: column; gap: 14px; text-align: center;}
+      .header img.logo { margin: 0 0 10px 0;}
+      .fab { width: 54px; height: 54px; font-size: 1.7rem;}
+      .fab-tooltip { font-size: .96rem;}
+    }
+    @media (max-width: 600px) {
+      html,body { font-size: 15px;}
+      .header { padding: 28px 8px 16px;}
+      .cars { margin-top: 38px;}
+      .credit { margin: 60px 0 30px;}
     }
   </style>
 </head>
 <body>
+
+  <div class="bubbles" aria-hidden="true">
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+  </div>
 
   <div id="loader">
     <div class="spinner"></div>
@@ -177,34 +252,51 @@
 
   <div class="header fade-in">
     <img src="https://i.ibb.co/1fLGmQ9G/IMG-0629.png" alt="BMW Logo" class="logo" />
-    <h1>Vacation Calendar</h1>
+    <h1><span class="shine">Vacation Calendar</span></h1>
   </div>
 
-  <iframe class="fade-in" src="https://calendar.online/5deb969c9fb87b85ffb7?iframe=true"></iframe>
+  <iframe class="fade-in" src="https://calendar.online/5deb969c9fb87b85ffb7?iframe=true" title="Vacation Calendar"></iframe>
 
   <div class="cars fade-in">
-    <img src="https://i.ibb.co/Ps6znKp2/bmw-suv.png" alt="BMW SUV">
-    <img src="https://i.ibb.co/Zz69WtD2/bmw-sedan.png" alt="BMW Sedan">
+    <img src="https://i.ibb.co/Ps6znKp2/bmw-suv.png" alt="BMW SUV" loading="lazy">
+    <img src="https://i.ibb.co/Zz69WtD2/bmw-sedan.png" alt="BMW Sedan" loading="lazy">
   </div>
 
   <div class="credit fade-in">
-    Made with care by <a href="https://potatoking.net" target="_blank">Yasen Yanakiev</a>
+    Made with care by <a href="https://potatoking.net" target="_blank" rel="noopener">Yasen Yanakiev</a>
   </div>
 
+  <button class="fab" aria-label="Go to Calendar" title="Jump to Calendar" onclick="scrollToCalendar()">
+    <svg width="32" height="32" fill="none" viewBox="0 0 24 24"><path fill="#fff" d="M12 20c-.31 0-.61-.13-.85-.37l-7-7a1.207 1.207 0 1 1 1.7-1.71l5.15 5.14V4a1.2 1.2 0 1 1 2.4 0v14.06l5.15-5.14a1.207 1.207 0 1 1 1.7 1.71l-7 7A1.2 1.2 0 0 1 12 20Z"/></svg>
+  </button>
+  <div class="fab-tooltip">Jump to Calendar</div>
+
   <script>
+    // Loader & fade-in
     window.addEventListener("load", () => {
       const loader = document.getElementById("loader");
       loader.classList.add("hidden");
-
       setTimeout(() => {
         document.querySelectorAll(".fade-in").forEach((el, i) => {
-          setTimeout(() => {
-            el.classList.add("show");
-          }, i * 300);
+          setTimeout(() => el.classList.add("show"), i * 320 + 100);
         });
-      }, 400);
+      }, 300);
+    });
+    // Fab scroll
+    function scrollToCalendar() {
+      const iframe = document.querySelector('iframe');
+      if(iframe) iframe.scrollIntoView({behavior: 'smooth', block: 'center'});
+    }
+    // Fancy bubble randomizer
+    document.querySelectorAll('.bubble').forEach((bubble) => {
+      function randomize() {
+        bubble.style.left = Math.random()*85 + "vw";
+        bubble.style.animationDelay = (Math.random()*-18)+"s";
+        bubble.style.opacity = 0.18 + Math.random()*0.19;
+      }
+      randomize();
+      bubble.addEventListener('animationiteration', randomize);
     });
   </script>
-
 </body>
 </html>
