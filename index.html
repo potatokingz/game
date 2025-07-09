@@ -1,34 +1,210 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Triangle In Space</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vacation Calendar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    html, body { margin: 0; padding: 0; background: #000; width: 100%; height: 100%; overflow: hidden; }
-    #gameCanvas { display: block; }
-    #mobileShootBtn {
-      position: fixed;
-      right: 32px;
-      bottom: 32px;
-      z-index: 1000;
-      padding: 54px 96px;
-      font-size: 4.5em;
-      border-radius: 150px;
-      background: #00cc33;
-      color: #fff;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f4f4f4, #ffffff);
+      color: #111;
+      text-align: center;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .fade-in.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      background: #ffffff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .header img.logo {
+      width: 80px;
+      margin-right: 20px;
+      filter: brightness(0);
+      transition: transform 0.3s ease;
+    }
+
+    .header img.logo:hover {
+      transform: scale(1.05);
+    }
+
+    h1 {
+      font-size: 40px;
+      font-weight: 600;
+      background: linear-gradient(to right, #111, #555);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    iframe {
+      margin: 50px auto 30px;
+      width: 90%;
+      height: 550px;
+      max-width: 1000px;
       border: none;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-      opacity: .85;
-      display: none;
-      user-select: none;
-      touch-action: none;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      background: #fff;
+    }
+
+    .cars {
+      margin-top: 60px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 40px;
+    }
+
+    .cars img {
+      width: 340px;
+      border-radius: 14px;
+      border: 1px solid #ddd;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .cars img:hover {
+      transform: scale(1.04);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .credit {
+      margin: 70px 0 40px;
+      font-size: 16px;
+      color: #666;
+    }
+
+    .credit a {
+      color: #000;
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px dotted #000;
+      transition: color 0.3s ease;
+    }
+
+    .credit a:hover {
+      color: #444;
+    }
+
+    /* Loader */
+    #loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+    #loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .spinner {
+      border: 6px solid #eee;
+      border-top: 6px solid #aaa;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 768px) {
+      .cars img {
+        width: 90%;
+      }
+
+      iframe {
+        height: 460px;
+      }
+
+      h1 {
+        font-size: 30px;
+      }
+
+      .header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+      }
+
+      .header img.logo {
+        margin: 0 0 10px 0;
+      }
     }
   </style>
 </head>
 <body>
-  <canvas id="gameCanvas"></canvas>
-  <button id="mobileShootBtn">Shoot</button>
-  <script src="game.js"></script>
+
+  <div id="loader">
+    <div class="spinner"></div>
+  </div>
+
+  <div class="header fade-in">
+    <img src="https://i.ibb.co/1fLGmQ9G/IMG-0629.png" alt="BMW Logo" class="logo" />
+    <h1>Vacation Calendar</h1>
+  </div>
+
+  <iframe class="fade-in" src="https://calendar.online/5deb969c9fb87b85ffb7?iframe=true"></iframe>
+
+  <div class="cars fade-in">
+    <img src="https://i.ibb.co/Ps6znKp2/bmw-suv.png" alt="BMW SUV">
+    <img src="https://i.ibb.co/Zz69WtD2/bmw-sedan.png" alt="BMW Sedan">
+  </div>
+
+  <div class="credit fade-in">
+    Made with care by <a href="https://potatoking.net" target="_blank">Yasen Yanakiev</a>
+  </div>
+
+  <script>
+    window.addEventListener("load", () => {
+      const loader = document.getElementById("loader");
+      loader.classList.add("hidden");
+
+      setTimeout(() => {
+        document.querySelectorAll(".fade-in").forEach((el, i) => {
+          setTimeout(() => {
+            el.classList.add("show");
+          }, i * 300);
+        });
+      }, 400);
+    });
+  </script>
+
 </body>
 </html>
