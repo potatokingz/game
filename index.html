@@ -19,7 +19,7 @@
       font-family: 'Poppins', sans-serif;
       min-height: 100vh;
       background: linear-gradient(120deg, #eaf6fb 0%, #f6fafd 70%, #c8e6fa 100%);
-      color: var(--primary);
+      color: #111; /* Make all text black */
       overflow-x: hidden;
       scroll-behavior: smooth;
       position: relative;
@@ -79,7 +79,7 @@
     h1 {
       font-size: 54px;
       font-weight: 700;
-      background: linear-gradient(85deg, var(--primary), var(--secondary), var(--accent), #fff 80%);
+      background: linear-gradient(85deg, #111, #444 70%, #888 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -99,17 +99,27 @@
     @keyframes shineMove {
       to {background-position: 200% center;}
     }
+
+    /* Center the calendar better */
+    .calendar-container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 60px 0 32px 0;
+      z-index: 2;
+      position: relative;
+    }
     iframe {
-      margin: 60px auto 32px;
-      width: 92%;
-      height: 590px;
+      width: 92vw;
       max-width: 1100px;
+      height: 590px;
       border: none;
       border-radius: 20px;
       box-shadow: 0 16px 48px 0 rgba(0,0,0,0.13), 0 2px 8px 0 rgba(0,0,0,0.11);
       background: var(--white);
-      z-index: 2;
-      position: relative;
+      display: block;
+      margin: 0 auto;
       filter: drop-shadow(0 6px 30px #b1e1fa77);
       transition: box-shadow 0.3s;
     }
@@ -140,7 +150,7 @@
     .credit {
       margin: 100px 0 48px;
       font-size: 18px;
-      color: var(--primary);
+      color: #111;
       text-shadow: 0 1px 0 #fff8;
       z-index: 2;
       position: relative;
@@ -205,7 +215,7 @@
       right: 80px;
       bottom: 22px;
       background: #fff;
-      color: var(--primary);
+      color: #111;
       border-radius: 8px;
       padding: 7px 18px;
       font-size: 1rem;
@@ -221,6 +231,7 @@
     /* Responsive */
     @media (max-width: 900px) {
       .cars img { width: 90vw; max-width: 340px; }
+      .calendar-container iframe { height: 420px;}
       iframe { height: 420px;}
       h1 { font-size: 34px;}
       .header { flex-direction: column; gap: 14px; text-align: center;}
@@ -255,7 +266,10 @@
     <h1><span class="shine">Vacation Calendar</span></h1>
   </div>
 
-  <iframe class="fade-in" src="https://calendar.online/5deb969c9fb87b85ffb7?iframe=true" title="Vacation Calendar"></iframe>
+  <!-- Center the calendar using a flex container -->
+  <div class="calendar-container fade-in">
+    <iframe src="https://calendar.online/5deb969c9fb87b85ffb7?iframe=true" title="Vacation Calendar"></iframe>
+  </div>
 
   <div class="cars fade-in">
     <img src="https://i.ibb.co/Ps6znKp2/bmw-suv.png" alt="BMW SUV" loading="lazy">
@@ -284,8 +298,8 @@
     });
     // Fab scroll
     function scrollToCalendar() {
-      const iframe = document.querySelector('iframe');
-      if(iframe) iframe.scrollIntoView({behavior: 'smooth', block: 'center'});
+      const calendarContainer = document.querySelector('.calendar-container');
+      if(calendarContainer) calendarContainer.scrollIntoView({behavior: 'smooth', block: 'center'});
     }
     // Fancy bubble randomizer
     document.querySelectorAll('.bubble').forEach((bubble) => {
