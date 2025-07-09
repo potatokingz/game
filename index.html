@@ -19,12 +19,11 @@
       font-family: 'Poppins', sans-serif;
       min-height: 100vh;
       background: linear-gradient(120deg, #eaf6fb 0%, #f6fafd 70%, #c8e6fa 100%);
-      color: #111; /* Make all text black */
+      color: #111;
       overflow-x: hidden;
       scroll-behavior: smooth;
       position: relative;
     }
-    /* ---- Animated Bubbles BG ---- */
     .bubbles {
       position: fixed;
       top:0; left:0; width:100vw; height:100vh; z-index:0; pointer-events:none; overflow:hidden;
@@ -47,8 +46,6 @@
       from { transform: translateY(0) scale(1);}
       to { transform: translateY(-110vh) scale(1.2);}
     }
-
-    /* ---- Fade In Anim ---- */
     .fade-in { opacity: 0; transform: translateY(40px) scale(0.98); transition: opacity 1.1s cubic-bezier(.57,1.21,.77,.96), transform 1s cubic-bezier(.57,1.21,.77,.96);}
     .fade-in.show { opacity: 1; transform: translateY(0) scale(1);}
     .header {
@@ -79,28 +76,25 @@
     h1 {
       font-size: 54px;
       font-weight: 700;
-      background: linear-gradient(85deg, #111, #444 70%, #888 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-fill-color: transparent;
+      color: #111 !important; /* Force text black */
+      background: none !important; /* Remove gradient */
+      -webkit-background-clip: unset !important;
+      -webkit-text-fill-color: unset !important;
+      background-clip: unset !important;
+      text-fill-color: unset !important;
       letter-spacing: -2px;
       font-family: 'Pacifico', cursive, 'Poppins', sans-serif;
       user-select: none;
-      text-shadow: 0 2px 8px #f4ebb6;
+      text-shadow: none !important;
+      text-align: center;
     }
     .shine {
-      background: linear-gradient(90deg, #fff6 40%, #fff 60%, #fff6 100%);
-      background-size: 200% auto;
-      animation: shineMove 2.2s linear infinite;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      background: none !important;
+      color: #111 !important;
+      -webkit-background-clip: unset !important;
+      -webkit-text-fill-color: unset !important;
+      animation: none !important;
     }
-    @keyframes shineMove {
-      to {background-position: 200% center;}
-    }
-
-    /* Center the calendar better */
     .calendar-container {
       width: 100%;
       display: flex;
@@ -171,7 +165,6 @@
       color: #222;
       background: linear-gradient(90deg, var(--accent) 60%, #fff 100%);
     }
-    /* Loader */
     #loader {
       position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
       background: linear-gradient(120deg, #eaf6fb 0%, #c8e6fa 100%);
@@ -190,45 +183,8 @@
       box-shadow: 0 4px 16px #b1e1fa99;
     }
     @keyframes spin { 0% { transform: rotate(0deg);} 100% { transform: rotate(360deg);} }
-    /* Floating button */
-    .fab {
-      position: fixed;
-      right: 30px;
-      bottom: 36px;
-      z-index: 10001;
-      background: linear-gradient(135deg, var(--secondary), var(--accent));
-      color: #fff;
-      border: none;
-      border-radius: 50%;
-      width: 64px;
-      height: 64px;
-      box-shadow: 0 6px 24px #00b3c644, 0 2px 8px #ffb34744;
-      font-size: 2.2rem;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .fab:hover { transform: scale(1.09) rotate(-7deg); box-shadow: 0 14px 36px #00b3c677;}
-    .fab:active { transform: scale(0.98);}
-    .fab-tooltip {
-      position: absolute;
-      right: 80px;
-      bottom: 22px;
-      background: #fff;
-      color: #111;
-      border-radius: 8px;
-      padding: 7px 18px;
-      font-size: 1rem;
-      box-shadow: 0 2px 14px #b1e1fa44;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.25s;
-      font-family: 'Poppins', sans-serif;
-      font-weight: 600;
-      letter-spacing: .3px;
-    }
-    .fab:hover + .fab-tooltip { opacity: 1; }
-    /* Responsive */
+    /* Remove the floating arrow button and tooltip */
+    .fab, .fab-tooltip { display: none !important; }
     @media (max-width: 900px) {
       .cars img { width: 90vw; max-width: 340px; }
       .calendar-container iframe { height: 420px;}
@@ -266,7 +222,6 @@
     <h1><span class="shine">Vacation Calendar</span></h1>
   </div>
 
-  <!-- Center the calendar using a flex container -->
   <div class="calendar-container fade-in">
     <iframe src="https://calendar.online/5deb969c9fb87b85ffb7?iframe=true" title="Vacation Calendar"></iframe>
   </div>
@@ -280,13 +235,7 @@
     Made with care by <a href="https://potatoking.net" target="_blank" rel="noopener">Yasen Yanakiev</a>
   </div>
 
-  <button class="fab" aria-label="Go to Calendar" title="Jump to Calendar" onclick="scrollToCalendar()">
-    <svg width="32" height="32" fill="none" viewBox="0 0 24 24"><path fill="#fff" d="M12 20c-.31 0-.61-.13-.85-.37l-7-7a1.207 1.207 0 1 1 1.7-1.71l5.15 5.14V4a1.2 1.2 0 1 1 2.4 0v14.06l5.15-5.14a1.207 1.207 0 1 1 1.7 1.71l-7 7A1.2 1.2 0 0 1 12 20Z"/></svg>
-  </button>
-  <div class="fab-tooltip">Jump to Calendar</div>
-
   <script>
-    // Loader & fade-in
     window.addEventListener("load", () => {
       const loader = document.getElementById("loader");
       loader.classList.add("hidden");
@@ -296,12 +245,7 @@
         });
       }, 300);
     });
-    // Fab scroll
-    function scrollToCalendar() {
-      const calendarContainer = document.querySelector('.calendar-container');
-      if(calendarContainer) calendarContainer.scrollIntoView({behavior: 'smooth', block: 'center'});
-    }
-    // Fancy bubble randomizer
+    // Remove FAB scroll and bubble randomizer for arrow
     document.querySelectorAll('.bubble').forEach((bubble) => {
       function randomize() {
         bubble.style.left = Math.random()*85 + "vw";
